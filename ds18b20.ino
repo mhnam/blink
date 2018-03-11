@@ -1,6 +1,7 @@
 // ESP8266 DS18B20 ArduinoIDE Thingspeak IoT Example code
+
+// reference
 // http://vaasa.hacklab.fi
-//
 // https://github.com/milesburton/Arduino-Temperature-Control-Library
 // https://gist.github.com/jeje/57091acf138a92c4176a
 

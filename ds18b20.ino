@@ -1,7 +1,6 @@
 // ESP8266 DS18B20 ArduinoIDE Thingspeak IoT Example code
-
-// reference
 // http://vaasa.hacklab.fi
+//
 // https://github.com/milesburton/Arduino-Temperature-Control-Library
 // https://gist.github.com/jeje/57091acf138a92c4176a
 
@@ -12,11 +11,20 @@
 #include <DallasTemperature.h>
 
 #define ONE_WIRE_BUS D3
+//#define THINKSPEAK
+#define IFTTT //comment if program is for THINKSPEAK
 
-
+#ifdef THINKSPEAK
 const char* host = "api.thingspeak.com"; // Your domain  
 String ApiKey = "CF2F86NC0P9N8A0N";
 String path = "/update?key=" + ApiKey + "&field1=";  
+#endif
+
+#ifdef IFTTT
+const char* host = "maker.ifttt.com"; // Your domain  
+String ApiKey = "cY9InbZ8wg11C2wWtqBs68";
+String path = "/trigger/NEW_TEMP/with/key/" + ApiKey + "?value1=" ;  
+#endif
 
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature DS18B20(&oneWire);
@@ -53,7 +61,15 @@ float getTemperature() {
   do {
     DS18B20.requestTemperatures(); 
     temp = DS18B20.getTempCByIndex(0);
-    delay(100);
+
+    #ifdef THINKSPEAK
+    delay(60000);
+    #endif
+
+    #ifdef IFTTT
+    delay(5000);
+    #endif
+
   } while (temp == 85.0 || temp == (-127.0));
   return temp;
 }
@@ -80,4 +96,3 @@ void loop() {
   delay(500);
 
 }
-
